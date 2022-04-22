@@ -1,0 +1,15 @@
+[ldapconfig]
+bindpasswd = *********
+
+alt_ldap_uri =
+alt_bind_dn =
+alt_bindpasswd =
+alt_base_dn =
+
+[deployment]
+varnish_url =
+dorsal =
+varnish_to_ban = 
+
+[custom]
+parts =
