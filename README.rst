@@ -14,7 +14,8 @@ name of the project .cfg associated:
 .. code-block:: bash
 
  $ [path_to_your_python_bin] bootstrap.py -c genwebupc.cfg --setuptools-version=42.0.2 --buildout-version=2.13.4
- $ ./bin/buildout -c genwebupc.cfg
+ $ cp customizeme.cfg.in customizeme.cfg
+ $ ./bin/buildout -N -c genwebupc.cfg
 
 Check out for the available projects in the projects.cfg file.
 
