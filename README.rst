@@ -25,3 +25,9 @@ Available projects/builds
 -------------------------
 * Genweb UPC
    - genwebupc.cfg
+
+
+/Users/pilarmarinas/Development/pythons/arm64_genweb6.buildout_py_3911/bin/python bootstrap.py --setuptools-version=62.0.0 -c genwebupc.cfg --buildout-version=3.0.0rc3
+
+
+/Users/pilarmarinas/Development/pythons/arm64_genweb6.buildout_py_3911/bin/pip install -r https://dist.plone.org/release/6.0.0a4/requirements.txt
