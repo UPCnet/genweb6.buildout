@@ -102,6 +102,7 @@ ENV/
 
 # Initialization values
 customizeme.cfg
+bootstrap.sh
 
 
 log.html
