@@ -17,6 +17,8 @@ name of the project .cfg associated:
 
  $ cp customizeme.cfg.in customizeme.cfg
 
+ $ cp bootstrap.sh.in bootstrap.sh
+
  $ modify the bootstrap.sh file with your venv
 
  $ run the ./bootstrap.sh
