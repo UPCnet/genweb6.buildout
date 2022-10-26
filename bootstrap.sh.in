@@ -1,7 +1,26 @@
 #/bin/sh
 # `which python3.8` -m venv .
-/Users/pilarmarinas/Development/pythons/arm64_genweb6.buildout_py_3911/bin/pip install -r requirements.txt
-/Users/pilarmarinas/Development/pythons/arm64_genweb6.buildout_py_3911/bin/buildout -N -c genwebupc.cfg
 
+Help()
+{
+	echo "Add as argument the python path from your venv."
+	echo "For example: /dades/pythons/py39gw   -------> ./bootstrap.sh /dades/pythons/py39gw"
+	echo "Another example: /Users/pilarmarinas/Development/pythons/arm64_genweb6.buildout_py_3911"
+}
+
+while getopts ":h" option; do
+	case $option in
+		h) #display Help
+			Help
+			exit;;
+		\?) #incorrect option
+			echo "Error: Invalid option"
+			exit;;
+	esac
+done
+
+echo "Your python path is: $1"
+$1/bin/pip install -r requirements.txt
+$1/bin/buildout -N -c genwebupc.cfg
 echo "run plone with: ./bin/instance fg"
 
