@@ -19,9 +19,7 @@ name of the project .cfg associated:
 
  $ cp bootstrap.sh.in bootstrap.sh
 
- $ modify the bootstrap.sh file with your venv
-
- $ run the ./bootstrap.sh
+ $ run the ./bootstrap.sh venv_directory
 
 
 Check out for the available projects in the projects.cfg file.
