@@ -23,7 +23,7 @@ eggs = ${genwebcore:eggs}
 [hosts]
 # Initializeme:
 # zeoserver = alai.upc.edu
-zeoserver = 127.0.0.1
+# zeoserver = 127.0.0.1
 python-interval = 1300
 
 [zeoaddr]
@@ -43,3 +43,8 @@ zeo-shared-blob-dir = off
 [deployment]
 varnish_url =
 dorsal =
+
+[zope-common]
+#effective-user = plone
+zope-conf-additional =
+#    maximum-number-of-session-objects 10000
