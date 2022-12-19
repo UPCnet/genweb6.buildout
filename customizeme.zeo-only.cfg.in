@@ -10,3 +10,7 @@ parts =
 
 [custom]
 eggs =
+
+[zeo-common]
+#effective-user = plone
+
