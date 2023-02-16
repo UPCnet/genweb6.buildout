@@ -13,7 +13,7 @@ name of the project .cfg associated:
 
 .. code-block:: bash
 
- $ create venv python 3.9.11
+ $ create venv python 3.11.1
 
  $ cp customizeme.cfg.in customizeme.cfg
 
