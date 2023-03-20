@@ -19,6 +19,9 @@ alt_base_dn =
 
 [custom]
 eggs = ${genwebcore:eggs}
+	   ${genwebupc:eggs}
+ 	   ${genwebaddons:eggs}
+ 	   ${genwebmigration:eggs}
 
 [hosts]
 # Initializeme:
