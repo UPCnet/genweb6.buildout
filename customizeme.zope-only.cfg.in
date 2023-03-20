@@ -2,16 +2,11 @@
 develop =
 extensions = mr.developer
 always-checkout = false
-auto-checkout = 
+auto-checkout = ${genwebmigration:eggs}
 
 [ldapconfig]
 # Initializeme:
 bindpasswd = secret
-
-alt_ldap_uri =
-alt_bind_dn =
-alt_bindpasswd =
-alt_base_dn =
 
 [supervisor-passwd]
 # Initializeme:
@@ -24,12 +19,12 @@ eggs = ${genwebcore:eggs}
  	   ${genwebmigration:eggs}
 
 [hosts]
-# Initializeme:
+# Initializeme zeoserver:
 # zeoserver = alai.upc.edu
-# zeoserver = 127.0.0.1
 python-interval = 1300
 
 [zeoaddr]
+# Initializeme ports:zeoX:
 zc1=${hosts:zeoserver}:${ports:zeo1}
 zc2=${hosts:zeoserver}:${ports:zeo1}
 zc3=${hosts:zeoserver}:${ports:zeo1}
@@ -38,12 +33,13 @@ zc4=${hosts:zeoserver}:${ports:zeo1}
 [filestorage]
 recipe = collective.recipe.filestorage
 zopes = zc1 zc2 zc3 zc4 zcdebug
-# Initializeme:
+# Initializeme parts:
 # parts = 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36
 blob-storage = var/blobstorage/%(fs_part_name)s
 zeo-shared-blob-dir = off
 
 [deployment]
+# Initializeme varnish_url and dorsal:
 varnish_url =
 dorsal =
 
