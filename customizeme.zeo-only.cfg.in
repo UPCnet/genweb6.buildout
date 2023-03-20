@@ -12,5 +12,5 @@ parts =
 eggs =
 
 [zeo-common]
-#effective-user = plone
+effective-user = plone
 

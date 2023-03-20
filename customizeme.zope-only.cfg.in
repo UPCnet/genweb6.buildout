@@ -48,6 +48,6 @@ varnish_url =
 dorsal =
 
 [zope-common]
-#effective-user = plone
+effective-user = plone
 zope-conf-additional =
 #    maximum-number-of-session-objects 10000
