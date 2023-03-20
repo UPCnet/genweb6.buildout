@@ -28,6 +28,7 @@ fi
 
 echo "Your python path is: $venv"
 $venv/bin/pip install -r requirements.txt
-$venv/bin/buildout -N -c genwebupc.cfg
-echo "run plone with: ./bin/instance fg"
+$venv/bin/buildout -N -c zope-only.cfg
+echo "run plone with: ./bin/zc1 fg"
+
 
