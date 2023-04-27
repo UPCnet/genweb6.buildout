@@ -17,6 +17,7 @@ eggs = ${genwebcore:eggs}
 	   ${genwebupc:eggs}
  	   ${genwebaddons:eggs}
  	   ${genwebmigration:eggs}
+	   repoze.profile
 
 [hosts]
 # Initializeme zeoserver:
@@ -45,5 +46,6 @@ dorsal =
 
 [zope-common]
 effective-user = plone
+profile = off
 zope-conf-additional =
 #    maximum-number-of-session-objects 10000
