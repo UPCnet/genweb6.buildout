@@ -48,6 +48,6 @@ dorsal =
 effective-user = plone
 profile = off
 http-fast-listen = off
-asyncore_use_poll = true
+asyncore-use-poll = on
 zope-conf-additional =
 #    maximum-number-of-session-objects 10000
