@@ -2,7 +2,7 @@
 develop =
 extensions = mr.developer
 always-checkout = false
-auto-checkout = ${genwebmigration:eggs}
+auto-checkout = ${buildout:developeggs}
 
 [ldapconfig]
 # Initializeme:
