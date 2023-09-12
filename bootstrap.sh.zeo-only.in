@@ -4,9 +4,9 @@
 Help()
 {
 	echo "Add as argument the python path from your venv."
-	echo "For example: /Dades/pythons/py3_11_1gw6   -------> ./bootstrap.sh /Dades/pythons/py3_11_1gw6"
+	echo "For example: /Dades/python/py3_11_1gw6   -------> ./bootstrap.sh /Dades/python/py3_11_1gw6"
 	echo "Or modify your venv variable and not add argument"
-	echo "venv=/Dades/pythons/py3_11_1gw6   -------> ./bootstrap.sh" 
+	echo "venv=/Dades/python/py3_11_1gw6   -------> ./bootstrap.sh"
 }
 
 while getopts ":h" option; do
@@ -23,12 +23,11 @@ done
 if [ $1 ]; then
 	venv=$1
 else
-	venv="/Dades/pythons/py3_11_1gw6"
+	venv="/Dades/python/py3_11_1gw6"
 fi
 
 echo "Your python path is: $venv"
 $venv/bin/pip install -r requirements.txt
 $venv/bin/buildout -N -c zeo-only.cfg
+$venv/bin/buildout -N -c zeo-only.cfg
 echo "run plone with: ./bin/zeo1 fg"
-
-
