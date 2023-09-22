@@ -114,3 +114,7 @@ report.html
 reports/
 
 .DS_Store
+
+# backups
+versions.cfg.*
+zc1.*
