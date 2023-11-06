@@ -1,4 +1,6 @@
 [buildout]
+developeggs += ${genwebmigration:eggs}
+
 develop =
 extensions = mr.developer
 always-checkout = false
