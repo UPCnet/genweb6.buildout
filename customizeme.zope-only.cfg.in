@@ -20,6 +20,9 @@ eggs = ${genwebcore:eggs}
  	   ${genwebaddons:eggs}
  	   ${genwebmigration:eggs}
 	   repoze.profile
+home_user =
+home_pass =
+home_url =
 
 [hosts]
 # Initializeme zeoserver:

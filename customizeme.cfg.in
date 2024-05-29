@@ -4,7 +4,10 @@ bindpasswd = *********
 [deployment]
 varnish_url =
 dorsal =
-varnish_to_ban = 
+varnish_to_ban =
 
 [custom]
 parts =
+home_user =
+home_pass =
+home_url =
