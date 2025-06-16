@@ -1,4 +1,5 @@
-pip==23.1.2
-setuptools==67.8.0
-wheel==0.40.0
-zc.buildout==3.0.1
+packaging==24.2
+pip==25.0.1
+setuptools==75.8.2
+wheel==0.45.1
+zc.buildout==4.1.4
