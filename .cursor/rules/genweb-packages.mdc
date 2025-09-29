@@ -1,0 +1,62 @@
+---
+globs: src/genweb6.*/**
+description: Paquetes GenWeb6 específicos
+---
+
+# Paquetes GenWeb6
+
+## Estructura de Paquetes
+
+Cada paquete genweb6 sigue la estructura estándar de Plone:
+
+```
+src/genweb6.{package}/
+├── src/genweb6/{package}/
+│   ├── __init__.py
+│   ├── configure.zcml
+│   ├── profiles/          # Perfiles de instalación
+│   ├── browser/           # Vistas y componentes web
+│   ├── content/           # Tipos de contenido
+│   ├── interfaces/        # Interfaces Zope
+│   ├── adapters/          # Adaptadores
+│   ├── vocabularies/      # Vocabularios
+│   └── templates/         # Plantillas
+├── setup.py
+├── setup.cfg
+├── constraints.txt
+└── tox.ini
+```
+
+## Paquetes Disponibles
+
+### Core
+- **genweb6.core** - Funcionalidad base compartida
+- **genweb6.theme** - Tema visual y estilos
+
+### UPC Específico
+- **genweb6.upc** - Funcionalidad específica de la UPC
+
+### Módulos de Negocio
+- **genweb6.tfemarket** - Mercado de trabajo
+- **genweb6.serveistic** - Servicios TIC
+- **genweb6.scholarship** - Gestión de becas
+- **genweb6.ens** - Escuela de Negocios
+- **genweb6.patents** - Gestión de patentes
+- **genweb6.esports** - Deportes electrónicos
+- **genweb6.gpaq** - GPAQ
+- **genweb6.rrhh** - Recursos humanos
+
+## Convenciones
+
+- Usar `genweb6.{package}` como namespace
+- Seguir convenciones de naming de Plone
+- Incluir tests en cada paquete
+- Documentar cambios en CHANGES.rst
+- Usar versionado semántico
+
+## Desarrollo
+
+- Cada paquete tiene su propio repositorio Git
+- Usar `mr.developer` para checkout automático
+- Tests con tox y pytest
+- CI/CD con GitHub Actions

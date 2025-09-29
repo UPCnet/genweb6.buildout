@@ -1,0 +1,44 @@
+---
+alwaysApply: true
+description: Estructura del proyecto Plone GenWeb6
+---
+
+# Estructura del Proyecto Plone GenWeb6
+
+Este es un proyecto Plone 6.0.15 con buildout que incluye múltiples paquetes genweb6.
+
+## Archivos de Configuración Principales
+
+- [genwebupc.cfg](mdc:genwebupc.cfg) - Configuración principal del buildout
+- [sources.cfg](mdc:sources.cfg) - Definición de repositorios Git
+- [versions.cfg](mdc:versions.cfg) - Versiones fijas de paquetes
+- [projects.cfg](mdc:projects.cfg) - Agrupación de paquetes por funcionalidad
+- [customizeme.cfg](mdc:customizeme.cfg) - Configuración personalizada
+
+## Estructura de Directorios
+
+- `src/` - Código fuente de todos los paquetes genweb6
+- `bin/` - Scripts ejecutables (instance, test, etc.)
+- `parts/` - Partes generadas por buildout
+- `var/` - Datos variables (blobstorage, filestorage, logs)
+- `develop-eggs/` - Enlaces simbólicos a paquetes en desarrollo
+
+## Paquetes GenWeb6
+
+- **genweb6.core** - Funcionalidad base
+- **genweb6.theme** - Tema visual
+- **genweb6.upc** - Funcionalidad específica UPC
+- **genweb6.tfemarket** - Mercado de trabajo
+- **genweb6.serveistic** - Servicios TIC
+- **genweb6.scholarship** - Becas
+- **genweb6.ens** - Escuela de Negocios
+- **genweb6.patents** - Patentes
+- **genweb6.esports** - Deportes electrónicos
+- **genweb6.gpaq** - GPAQ
+- **genweb6.rrhh** - Recursos humanos
+
+## Comandos Útiles
+
+- `bin/instance` - Iniciar instancia Zope
+- `bin/test` - Ejecutar tests
+- `bin/develop` - Activar/desactivar paquetes en desarrollo

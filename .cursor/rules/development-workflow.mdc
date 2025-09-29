@@ -1,0 +1,106 @@
+---
+description: Flujo de desarrollo y testing para Plone
+---
+
+# Flujo de Desarrollo
+
+## Comandos Básicos
+
+### Setup Inicial
+```bash
+# 1. Crear entorno virtual con Python 3.11.1
+python3.11 -m venv /path/to/your/venv
+# Ejemplo: python3.11 -m venv /Users/pilarmarinas/Development/pythons/arm64_gw6_buildout_6_0_15_3_11_1
+
+# 2. Activar entorno virtual
+source /path/to/your/venv/bin/activate
+
+# 3. Clonar repositorio
+git clone https://github.com/UPCnet/genweb6.buildout
+
+# 4. Copiar plantillas
+cp customizeme.cfg.in customizeme.cfg
+cp bootstrap.sh.in bootstrap.sh
+
+# 5. Configurar customizeme.cfg con tus parámetros
+
+# 6. Bootstrap del buildout
+./bootstrap.sh [python_path]
+# O sin argumento si tienes configurado el venv por defecto en bootstrap.sh
+./bootstrap.sh
+```
+
+### Iniciar Desarrollo
+```bash
+# Iniciar instancia
+bin/instance start
+# O en foreground para debugging
+bin/instance fg
+```
+
+### Gestión de Paquetes
+```bash
+# Activar paquete en desarrollo
+bin/develop activate genweb6.core
+
+# Desactivar paquete
+bin/develop deactivate genweb6.core
+
+# Ver paquetes activos
+bin/develop list
+```
+
+### Testing
+```bash
+# Ejecutar todos los tests
+bin/test
+
+# Tests de un paquete específico
+bin/test genweb6.core
+
+# Tests con coverage
+bin/test --coverage
+```
+
+### Debugging
+```bash
+# Iniciar con debugger
+bin/instance debug
+
+# Usar ipdb en el código
+import ipdb; ipdb.set_trace()
+```
+
+## Estructura de Testing
+
+- Tests unitarios en `tests/`
+- Tests de integración en `tests/integration/`
+- Fixtures en `tests/fixtures/`
+- Usar `plone.app.testing` para tests de Plone
+
+## Git Workflow
+
+- Rama `plone_6_0_15` para desarrollo
+- Commits convencionales: `feat:`, `fix:`, `docs:`, etc.
+- Pull requests para cambios importantes
+- Tests deben pasar antes del merge
+
+## Internacionalización
+
+```bash
+# Extraer strings
+bin/i18ndude find-untranslated
+
+# Compilar traducciones
+bin/i18ndude rebuild-pot
+
+# Actualizar traducciones
+bin/update_locale
+```
+
+## Deployment
+
+- Configuración en `deploy/`
+- Variables de entorno en `customizeme.cfg`
+- Varnish para cache
+- LDAP para autenticación
