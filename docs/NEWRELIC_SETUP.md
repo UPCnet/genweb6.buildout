@@ -6,21 +6,30 @@ La instrumentación captura transacciones HTTP via el wrapper WSGI.
 ## Resumen de archivos configurados
 
 ### Local (desarrollo)
-- **Buildout**: `genwebupc.cfg` - contiene eggs, environment-vars e initialization
+- **Buildout**: `genwebupc.cfg` - contiene eggs, environment-vars, initialization y parte newrelic-config
 - **Customizeme**: `customizeme.cfg` - contiene license_key (placeholder), app_name, monitor_mode
+- **Template**: `newrelic.ini.template` - template para generar newrelic.ini
+- **Generado**: `newrelic.ini` - generado automáticamente por buildout desde el template
 - **Arranque**: `bin/instance fg`
 
 ### Producción
-- **Buildout**: `zope-only.cfg` + `deploy/zope-default.cfg` - contiene eggs, environment-vars e initialization
+- **Buildout**: `zope-only.cfg` + `deploy/zope-default.cfg` - contiene eggs, environment-vars, initialization y parte newrelic-config
 - **Customizeme**: `customizeme.cfg` (en las máquinas PRO) - contiene license_key real, app_name, monitor_mode
+- **Template**: `newrelic.ini.template` - template para generar newrelic.ini
+- **Generado**: `newrelic.ini` - generado automáticamente por buildout desde el template
 - **Arranque**: `bin/supervisorctl restart all` o `bin/zc1 start`, etc.
-- **Template**: `customizeme.cfg.production.example` - ejemplo para PRO
+- **Ejemplo**: `customizeme.cfg.production.example` - ejemplo para PRO
+
+**IMPORTANTE**: El archivo `newrelic.ini` se **genera automáticamente** al ejecutar buildout.
+Los valores se toman del `customizeme.cfg`. No edites `newrelic.ini` directamente, edita `newrelic.ini.template` si necesitas cambiar la configuración base.
 
 ## Qué está configurado
 
 ✅ New Relic Python Agent instalado
 ✅ Instrumentación WSGI de ZPublisher
 ✅ Variables de entorno configuradas
+✅ Template `newrelic.ini.template` con placeholders
+✅ Generación automática de `newrelic.ini` desde customizeme.cfg al ejecutar buildout
 ✅ Archivo newrelic.ini con 4 entornos (development, test, staging, production)
 ✅ Captura automática de:
   - Transacciones HTTP
@@ -48,7 +57,10 @@ environment = development
 bin/buildout -c genwebupc.cfg
 ```
 
-Esto instalará el paquete `newrelic` y configurará la instancia para inicializarlo.
+Esto:
+- Instala el paquete `newrelic`
+- **Genera automáticamente** `newrelic.ini` desde `newrelic.ini.template` con los valores del `customizeme.cfg`
+- Configura la instancia para inicializar New Relic
 
 ### 3. Arrancar la instancia
 
@@ -84,7 +96,7 @@ En las máquinas de producción, edita el `customizeme.cfg` y añade/modifica la
 
 ```ini
 [newrelic]
-# Obtén la license key real de New Relic para Genweb-PRO
+# Obtén la license key real de New Relic
 # https://one.newrelic.com/ -> API Keys
 license_key = TU_LICENSE_KEY_REAL_AQUI
 app_name = Genweb6 Production
@@ -98,7 +110,7 @@ Puedes usar `customizeme.cfg.production.example` como referencia.
 
 ```bash
 cd /path/to/genweb6.buildout
-bin/buildout -c zope-only.cfg
+./bootstrap.sh
 ```
 
 Esto:
@@ -179,17 +191,36 @@ Simplemente usa `bin/instance fg` normalmente.
 
 ## Troubleshooting
 
+### El agente usa 'local-dev-placeholder' en PRE/PRO
+
+**Síntoma**: En los logs aparece `agent config license_key = 'local-dev-placeholder'`
+
+**Causa**: El archivo `newrelic.ini` no se ha regenerado con los valores del `customizeme.cfg`
+
+**Solución**: Ejecuta buildout de nuevo:
+
+```bash
+./bootstrap.sh
+
+# Verifica que el newrelic.ini tiene la license key real
+grep "license_key =" newrelic.ini | head -3
+# Debería mostrar: license_key =
+
+# Reinicia
+bin/supervisorctl restart all
+```
+
 ### No aparecen datos en New Relic
 
 - Verifica que `monitor_mode = true`
-- Verifica que la `license_key` es correcta
+- Verifica que la `license_key` es correcta en `newrelic.ini`
 - Revisa los logs en `/tmp/newrelic-python-agent.log`
 
 ### El agente no se inicializa
 
 - Verifica que `newrelic` está en los eggs
 - Ejecuta `bin/buildout` de nuevo
-- Verifica que el archivo `newrelic.ini` existe
+- Verifica que el archivo `newrelic.ini` existe y tiene valores correctos (no placeholders)
 
 ### Demasiado overhead
 
@@ -199,16 +230,16 @@ Ajusta estos parámetros en `newrelic.ini`:
 
 ## Checklist para despliegue en PRO
 
-- [ ] Obtener license key de New Relic para Genweb-PRO (https://one.newrelic.com/ -> API Keys)
+- [ ] Obtener license key de New Relic (https://one.newrelic.com/ -> API Keys)
   - Debe ser una key de tipo **"Ingest - License"**
 - [ ] Editar `customizeme.cfg` en las máquinas PRO:
   - [ ] Añadir sección `[newrelic]`
   - [ ] Poner `license_key` real (sin comillas, sin espacios)
-  - [ ] Configurar `app_name = Genweb-PRO`
+  - [ ] Configurar `app_name = `
   - [ ] Configurar `monitor_mode = true`
   - [ ] Configurar `environment = production`
 - [ ] Verificar que `newrelic.ini` está en el directorio raíz del buildout
-- [ ] Ejecutar `bin/buildout -c zope-only.cfg`
+- [ ] Ejecutar `./bootstrap.sh`
 - [ ] Reiniciar todos los Zopes: `bin/supervisorctl restart all`
 - [ ] Verificar en logs de Zope que aparece: "New Relic: ZPublisher WSGI instrumented"
 - [ ] Verificar en `/tmp/newrelic-python-agent.log` que:
@@ -230,6 +261,39 @@ environment-vars =
 ```
 
 Esto hace que la license_key del `customizeme.cfg` sobrescriba el placeholder del `newrelic.ini`.
+
+## Cómo funciona el sistema de templates
+
+### Flujo de configuración
+
+1. **Defines valores en customizeme.cfg**:
+   ```ini
+   [newrelic]
+   license_key =
+   app_name =
+   monitor_mode = true
+   environment = production
+   ```
+
+2. **El buildout genera newrelic.ini**:
+   - Lee `newrelic.ini.template`
+   - Sustituye `${newrelic:license_key}` → ``
+   - Sustituye `${newrelic:app_name}` → ``
+   - Sustituye `${newrelic:monitor_mode}` → `true`
+   - Escribe `newrelic.ini` con los valores reales
+
+3. **El agente se inicializa**:
+   - El bloque `initialization` del buildout llama a `newrelic.agent.initialize('newrelic.ini', 'production')`
+   - El agente lee `newrelic.ini` que ya tiene los valores correctos
+   - Instrumenta `ZPublisher.WSGIPublisher.publish_module` con WSGI wrapper
+
+### Ventajas
+
+✅ Los valores del `customizeme.cfg` se escriben **directamente** en `newrelic.ini`
+✅ No hay problemas de precedencia o timing de environment variables
+✅ El agente siempre lee los valores correctos desde el inicio
+✅ Cada entorno (local, PRE, PRO) tiene su propio `newrelic.ini` generado
+✅ No commiteas secrets al repo (`newrelic.ini` está en `.gitignore`, solo el template está en el repo)
 
 ## Referencias
 

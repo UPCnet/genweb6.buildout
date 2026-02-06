@@ -18,7 +18,7 @@ metadades_servei_apikey = YOUR_METADADES_SERVEI_APIKEY
 metadades_indicadors_apikey = YOUR_METADADES_INDICADORS_APIKEY
 
 [newrelic]
-# IMPORTANTE: Obtén la license_key real de New Relic para Genweb-PRO
+# IMPORTANTE: Obtén la license_key real de New Relic
 # https://one.newrelic.com/ -> API Keys
 license_key = YOUR_NEWRELIC_LICENSE_KEY_HERE
 app_name = Genweb6 Production

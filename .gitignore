@@ -104,6 +104,7 @@ ENV/
 # Initialization values
 customizeme.cfg
 bootstrap.sh
+newrelic.ini
 
 
 log.html
