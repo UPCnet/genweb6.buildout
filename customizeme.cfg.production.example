@@ -1,0 +1,26 @@
+# Ejemplo de customizeme.cfg para PRODUCCIÓN
+# Copia este archivo a customizeme.cfg en las máquinas de PRO
+
+[ldapconfig]
+bindpasswd = YOUR_LDAP_PASSWORD
+
+[deployment]
+varnish_url = http://your-varnish-url
+dorsal = your-dorsal-value
+varnish_to_ban = 
+
+[custom]
+parts =
+home_user = your_home_user
+home_pass = your_home_pass
+home_url = https://your-home-url
+metadades_servei_apikey = YOUR_METADADES_SERVEI_APIKEY
+metadades_indicadors_apikey = YOUR_METADADES_INDICADORS_APIKEY
+
+[newrelic]
+# IMPORTANTE: Obtén la license_key real de New Relic para Genweb-PRO
+# https://one.newrelic.com/ -> API Keys
+license_key = YOUR_NEWRELIC_LICENSE_KEY_HERE
+app_name = Genweb6 Production
+monitor_mode = true
+environment = production
