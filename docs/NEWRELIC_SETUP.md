@@ -173,7 +173,7 @@ Para verificar que New Relic está funcionando:
 
 ### ¿Necesito usar bin/instance-newrelic?
 
-**NO**. El script `bin/instance-newrelic` existe pero no es necesario porque la instrumentación ya está configurada en el `initialization` del buildout. 
+**NO**. El script `bin/instance-newrelic` existe pero no es necesario porque la instrumentación ya está configurada en el `initialization` del buildout.
 
 Simplemente usa `bin/instance fg` normalmente.
 
@@ -200,19 +200,36 @@ Ajusta estos parámetros en `newrelic.ini`:
 ## Checklist para despliegue en PRO
 
 - [ ] Obtener license key de New Relic para Genweb-PRO (https://one.newrelic.com/ -> API Keys)
+  - Debe ser una key de tipo **"Ingest - License"**
 - [ ] Editar `customizeme.cfg` en las máquinas PRO:
   - [ ] Añadir sección `[newrelic]`
-  - [ ] Poner `license_key` real
-  - [ ] Configurar `app_name = Genweb6 Production`
+  - [ ] Poner `license_key` real (sin comillas, sin espacios)
+  - [ ] Configurar `app_name = Genweb-PRO`
   - [ ] Configurar `monitor_mode = true`
   - [ ] Configurar `environment = production`
 - [ ] Verificar que `newrelic.ini` está en el directorio raíz del buildout
 - [ ] Ejecutar `bin/buildout -c zope-only.cfg`
-- [ ] Reiniciar todos los Zopes
-- [ ] Verificar en logs que aparece: "New Relic: ZPublisher WSGI instrumented"
+- [ ] Reiniciar todos los Zopes: `bin/supervisorctl restart all`
+- [ ] Verificar en logs de Zope que aparece: "New Relic: ZPublisher WSGI instrumented"
+- [ ] Verificar en `/tmp/newrelic-python-agent.log` que:
+  - La license key se lee correctamente (no debe ser 'local-dev-placeholder')
+  - El app_name es correcto
+  - El agente conecta con New Relic
 - [ ] Esperar 5-10 minutos
-- [ ] Verificar en https://one.newrelic.com/ que aparece la aplicación "Genweb6 Production"
+- [ ] Verificar en https://one.newrelic.com/ que aparece la aplicación
 - [ ] Verificar que se reciben transacciones HTTP
+
+## Importante: Variables de entorno
+
+Las variables `NEW_RELIC_LICENSE_KEY` y `NEW_RELIC_APP_NAME` se configuran automáticamente desde el `customizeme.cfg` mediante las siguientes líneas en los archivos de buildout:
+
+```ini
+environment-vars =
+  NEW_RELIC_LICENSE_KEY ${newrelic:license_key}
+  NEW_RELIC_APP_NAME ${newrelic:app_name}
+```
+
+Esto hace que la license_key del `customizeme.cfg` sobrescriba el placeholder del `newrelic.ini`.
 
 ## Referencias
 

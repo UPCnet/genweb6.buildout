@@ -7,7 +7,7 @@ bindpasswd = YOUR_LDAP_PASSWORD
 [deployment]
 varnish_url = http://your-varnish-url
 dorsal = your-dorsal-value
-varnish_to_ban = 
+varnish_to_ban =
 
 [custom]
 parts =
