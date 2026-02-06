@@ -160,8 +160,8 @@ thread_profiler.enabled = true
 # ([newrelic:development], [newrelic:production], etc.) pero ya NO se usan.
 #
 # Todos los valores (app_name, monitor_mode, license_key) vienen del
-# customizeme.cfg a través de los placeholders ${newrelic:*} que se
-# sustituyen al ejecutar buildout.
+# customizeme.cfg a través de placeholders de buildout que se sustituyen
+# al ejecutar buildout.
 #
 
 # ---------------------------------------------------------------------------
