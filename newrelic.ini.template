@@ -89,6 +89,11 @@ high_security = false
 # attributes.exclude = request.parameters.*
 attributes.exclude = request.parameters.*
 
+# Enable custom instrumentation
+# This allows the agent to use function_trace settings below
+# and custom API instrumentation
+instrumentation.enabled = true
+
 # Transaction tracer captures deep information about slow
 # transactions and sends this to the UI on a periodic basis. The
 # transaction tracer is enabled by default. Set this to false to turn it off.
@@ -100,7 +105,8 @@ transaction_tracer.enabled = true
 # values are any positive float value, or the string "apdex_f",
 # which will use the threshold for a dissatisfying Apdex
 # controller action - four times the Apdex T value.
-transaction_tracer.transaction_threshold = apdex_f
+# Ajustado a 1.0 segundos para capturar más trazas (default: apdex_f)
+transaction_tracer.transaction_threshold = 1.0
 
 # When the transaction tracer is on, SQL statements can optionally be
 # recorded. The recorder has three modes: off, raw, and obfuscated.
@@ -129,7 +135,8 @@ transaction_tracer.explain_threshold = 0.5
 # Space separated list of function or method names in form
 # 'module:function' or 'module:class.function' for which additional
 # function timing instrumentation will be added.
-transaction_tracer.function_trace =
+# Solo ZPublisher core (ULTRA ESTABLE - sin circular imports)
+transaction_tracer.function_trace = ZPublisher.WSGIPublisher:publish_module ZPublisher.WSGIPublisher:transaction_pubevents ZPublisher.Publish:publish ZPublisher.Publish:call_object ZPublisher.mapply:mapply
 
 # The error collector captures information about uncaught exceptions
 # and sends them to UI for viewing. The error collector is enabled by
@@ -152,6 +159,11 @@ browser_monitoring.auto_instrument = true
 # snapshot of the call stack for each active thread in the application
 # to construct a statistically representative call tree.
 thread_profiler.enabled = true
+
+# Distributed tracing and span events provide detailed visibility
+# into function calls and their timing within transactions
+distributed_tracing.enabled = true
+span_events.enabled = true
 
 # ---------------------------------------------------------------------------
 
