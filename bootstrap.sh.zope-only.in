@@ -30,4 +30,5 @@ echo "Your python path is: $venv"
 $venv/bin/pip install -r requirements.txt
 $venv/bin/buildout -N -c zope-only.cfg
 $venv/bin/buildout -N -c zope-only.cfg
+chown -R plone:plone .
 echo "run plone with: ./bin/zc1 fg"
