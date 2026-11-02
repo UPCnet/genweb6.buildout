@@ -1,0 +1,147 @@
+---
+globs: *.py,*.zcml,*.pt,*.xml
+description: Estándares de código Python y Plone
+---
+
+# Estándares de Código Python/Plone
+
+## Python
+
+### Estilo de Código
+- Seguir PEP 8
+- Usar black para formateo automático
+- Docstrings con formato Google
+- Type hints cuando sea posible
+
+### Imports
+```python
+# Orden de imports
+from __future__ import absolute_import
+
+# Standard library
+import os
+import sys
+
+# Third-party
+from plone import api
+from zope.interface import Interface
+
+# Local
+from genweb6.core import _
+from genweb6.core.interfaces import IMyInterface
+```
+
+## Plone/Zope
+
+### Estructura de Paquetes
+```python
+# configure.zcml
+<configure xmlns="http://namespaces.zope.org/zope">
+    <include package="plone.app.contenttypes" />
+    <include package=".browser" />
+    <include package=".content" />
+</configure>
+```
+
+### Interfaces
+```python
+from zope.interface import Interface
+from zope import schema
+
+class IMyContent(Interface):
+    title = schema.TextLine(
+        title=_(u"Title"),
+        required=True,
+    )
+```
+
+### Content Types
+```python
+from plone.dexterity.content import Container
+from plone.supermodel import model
+from zope.interface import implementer
+
+@implementer(IMyContent)
+class MyContent(Container):
+    """My content type implementation."""
+```
+
+### Views
+```python
+from Products.Five.browser import BrowserView
+from plone import api
+
+class MyView(BrowserView):
+    """My view implementation."""
+
+    def __call__(self):
+        return self.index()
+```
+
+### Adapters
+```python
+from zope.component import adapts
+from zope.interface import implements
+
+class MyAdapter(object):
+    implements(IMyInterface)
+    adapts(IContent)
+
+    def __init__(self, context):
+        self.context = context
+```
+
+## Templates (Chameleon)
+
+### Estructura
+```html
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+```
+
+### Buenas Prácticas
+- Usar `i18n:translate` para textos
+- `tal:condition` para lógica condicional
+- `metal:use-macro` para reutilización
+- Evitar lógica compleja en templates
+
+## Testing
+
+### Tests Unitarios
+```python
+import unittest
+from plone.app.testing import PLONE_INTEGRATION_TESTING
+from plone.testing import z2
+
+class TestMyContent(unittest.TestCase):
+    layer = PLONE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+```
+
+### Fixtures
+```python
+from plone.app.testing import applyProfile
+from plone.app.testing import PloneSandboxLayer
+
+class MyLayer(PloneSandboxLayer):
+    def setUpZope(self, app, configurationContext):
+        import genweb6.core
+        self.loadZCML(package=genweb6.core)
+```
+
+## Configuración
+
+### ZCML
+- Usar `configure.zcml` para configuración principal
+- Incluir subpaquetes con `<include package=".browser" />`
+- Registrar adaptadores, utilidades, etc.
+
+### Profiles
+- `default` para instalación inicial
+- `uninstall` para desinstalación
+- `upgrades` para migraciones

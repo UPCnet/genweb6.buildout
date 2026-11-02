@@ -1,0 +1,100 @@
+---
+globs: *.cfg
+description: Configuración de buildout para Plone
+---
+
+# Configuración de Buildout
+
+## Plantillas de Configuración
+
+El proyecto usa un sistema de plantillas para diferentes entornos:
+
+### Configuraciones Principales
+- **Local/Desarrollo**: [genwebupc.cfg](mdc:genwebupc.cfg) - Configuración completa para desarrollo
+- **Zope Only**: [zope-only.cfg](mdc:zope-only.cfg) - Solo instancias Zope (producción)
+- **ZEO Only**: [zeo-only.cfg](mdc:zeo-only.cfg) - Solo servidor ZEO (producción)
+
+### Plantillas de Bootstrap
+- [bootstrap.sh.in](mdc:bootstrap.sh.in) - Plantilla para local/desarrollo
+- [bootstrap.sh.zope-only.in](mdc:bootstrap.sh.zope-only.in) - Plantilla para Zope only
+- [bootstrap.sh.zeo-only.in](mdc:bootstrap.sh.zeo-only.in) - Plantilla para ZEO only
+
+### Plantillas de Customización
+- [customizeme.cfg.in](mdc:customizeme.cfg.in) - Configuración local
+- [customizeme.zope-only.cfg.in](mdc:customizeme.zope-only.cfg.in) - Configuración Zope
+- [customizeme.zeo-only.cfg.in](mdc:customizeme.zeo-only.cfg.in) - Configuración ZEO
+
+## Proceso de Setup
+
+1. **Crear entorno virtual**: `python3.11 -m venv /path/to/venv`
+2. **Clonar repositorio**: `git clone https://github.com/UPCnet/genweb6.buildout`
+3. **Copiar plantillas**:
+   ```bash
+   cp customizeme.cfg.in customizeme.cfg
+   cp bootstrap.sh.in bootstrap.sh
+   ```
+4. **Configurar parámetros** en `customizeme.cfg`
+5. **Ejecutar bootstrap**: `./bootstrap.sh [python_path]`
+
+## Requisitos del Entorno
+
+- **Python 3.11.1** - Versión específica requerida
+- **Entorno virtual** - Aislado para el proyecto
+- **Ruta del venv** - Configurable en bootstrap.sh o como argumento
+
+## Archivos de Configuración
+
+- [genwebupc.cfg](mdc:genwebupc.cfg) - Configuración principal que extiende:
+  - `https://dist.plone.org/release/6.0.15/versions.cfg`
+  - [projects.cfg](mdc:projects.cfg)
+  - [sources.cfg](mdc:sources.cfg)
+  - [customizeme.cfg](mdc:customizeme.cfg)
+  - [versions.cfg](mdc:versions.cfg)
+
+## Partes del Buildout
+
+- `filestorage` - Configuración de almacenamiento de archivos
+- `instance` - Instancia Zope (puerto 11901)
+- `i18ndude` - Herramientas de internacionalización
+- `site-packages` - Paquetes Python organizados
+- `test` - Configuración de testing
+
+## Variables de Entorno
+
+- `PTS_LANGUAGES ca es en` - Idiomas soportados
+- `zope_i18n_allowed_languages ca es en`
+- `ldapbindpasswd` - Configuración LDAP
+- `varnish_url` - URL de Varnish para cache
+- `home_user/home_pass/home_url` - Configuración de autenticación
+
+## Paquetes Principales
+
+- Zope, Plone, Pillow
+- plone.reload, ipdb
+- eea.facetednavigation
+- Products.PloneLDAP
+- plone.formwidget.recaptcha
+- Todos los paquetes genweb6
+
+## Configuraciones de Producción
+
+### Zope Only (zope-only.cfg)
+- Múltiples instancias Zope (zc1, zc2, zc3, zc4, zcdebug)
+- Configuración de filestorage distribuido
+- Supervisor para gestión de procesos
+- Backup automático
+- Purge de Varnish
+
+### ZEO Only (zeo-only.cfg)
+- Servidores ZEO (zeo1, zeo2)
+- Filestorage distribuido
+- Backup de ZEO
+- Supervisor para gestión
+
+## Desarrollo
+
+- `mr.developer` para gestión de repositorios
+- `always-checkout = false`
+- `auto-checkout` basado en developeggs
+- Bootstrap con Python 3.11.1
+- Configuración de entorno virtual personalizada
